@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useFetch } from "~/hooks/useFetch";
 
 interface WeatherForecast {
     date: string;
@@ -8,26 +8,11 @@ interface WeatherForecast {
 }
 
 export default function Weather() {
-    const [forecasts, setForecasts] = useState<WeatherForecast[] | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        fetch("https://localhost:44363/weatherforecast")
-            .then((res) => {
-                if (!res.ok) throw new Error(`API returned ${res.status}`);
-                return res.json();
-            })
-            .then(setForecasts)
-            .catch((err) => {
-                if (err instanceof TypeError && err.message === "Failed to fetch") {
-                    setError("Backend is unreachable. Is the API running?");
-                } else {
-                    setError("An unexpected error occurred: " + err.message);
-                }
-            })
-            .finally(() => setLoading(false));
-    }, []);
+    const {
+        data: forecasts,
+        loading,
+        error,
+    } = useFetch<WeatherForecast[]>("https://localhost:44363/weatherforecast");
 
     if (loading) return <p className="text-gray-500">Loading...</p>;
     if (error) return <p className="text-red-500">Error: {error}</p>;
@@ -46,7 +31,10 @@ export default function Weather() {
                 </thead>
                 <tbody>
                 {forecasts?.map((forecast) => (
-                    <tr key={forecast.date} className="border-t border-gray-200 dark:border-gray-700">
+                    <tr
+                        key={forecast.date}
+                        className="border-t border-gray-200 dark:border-gray-700"
+                    >
                         <td className="px-4 py-2">{forecast.date}</td>
                         <td className="px-4 py-2">{forecast.summary}</td>
                         <td className="px-4 py-2">{forecast.temperatureC}</td>
@@ -58,4 +46,3 @@ export default function Weather() {
         </div>
     );
 }
-// This code fetches weather data from a .NET API and displays it in a styled table.
