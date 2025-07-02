@@ -1,5 +1,4 @@
 using System.Text.Json;
-using Microsoft.AspNetCore.Mvc;
 using PersonalProjectsCore;
 
 namespace PersonalProjectsAPI.Endpoints;
@@ -13,12 +12,9 @@ public static class StravaEndpoints
 
     public static void MapStravaEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/strava", async (HttpClient http, [FromQuery] string accessToken) =>
+        app.MapGet("/strava", async (HttpClient http) =>
             {
-                if (string.IsNullOrWhiteSpace(accessToken))
-                {
-                    return Results.BadRequest(new { Error = "Access token is required." });
-                }
+                var accessToken = Environment.GetEnvironmentVariable("STRAVA_ACCESS_TOKEN");
 
                 var request = new HttpRequestMessage(HttpMethod.Get, "https://www.strava.com/api/v3/athlete");
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
