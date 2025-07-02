@@ -22,7 +22,7 @@ public class Program
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins("http://localhost:5175") // Vite default dev server
+                policy.WithOrigins("http://localhost:5176") // Vite default dev server
                     .AllowAnyHeader()
                     .AllowAnyMethod();
             });

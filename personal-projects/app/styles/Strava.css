@@ -1,0 +1,50 @@
+.strava-container {
+    padding: 1rem;
+}
+
+.strava-card {
+    display: flex;
+    gap: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+    max-width: 600px;
+}
+
+.strava-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fc4c02;
+}
+
+.strava-details {
+    flex: 1;
+}
+
+.strava-details h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.username {
+    color: #666;
+    margin-bottom: 0.25rem;
+}
+
+.bio {
+    font-style: italic;
+    margin: 0.5rem 0;
+}
+
+.strava-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+}
+
+.strava-table td {
+    padding: 4px 8px;
+    border-bottom: 1px solid #ddd;
+}
