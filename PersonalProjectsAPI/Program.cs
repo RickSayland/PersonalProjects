@@ -1,3 +1,5 @@
+using PersonalProjectsAPI.Endpoints;
+
 namespace PersonalProjectsAPI;
 
 public class Program
@@ -38,6 +40,7 @@ public class Program
         app.UseAuthorization();
 
         app.MapWeatherForecastEndpoints();
+        app.MapUraniumEndpoints();
 
         app.Run();
     }
