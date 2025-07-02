@@ -15,6 +15,9 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         
+        // Add HttpClient for Strava API calls
+        builder.Services.AddHttpClient();
+        
         builder.Services.AddCors(options =>
         {
             options.AddDefaultPolicy(policy =>
@@ -41,6 +44,7 @@ public class Program
 
         app.MapWeatherForecastEndpoints();
         app.MapUraniumEndpoints();
+        app.MapStravaEndpoints();
 
         app.Run();
     }

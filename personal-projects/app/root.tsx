@@ -49,9 +49,10 @@ export default function App() {
                 <h2 className="sidebar-title">🛠 My Apps</h2>
                 <nav className="nav-links">
                     <NavItem to="/" label="🏠 Home" />
-                    <NavItem to="/weather" label="☁️ Weather" />
-                    <NavItem to="/uranium" label="⚛️ Uranium" />
                     <NavItem to="/dna" label="🧬 DNA" />
+                    <NavItem to="/running" label="🏃‍♂️️ Running" />
+                    <NavItem to="/uranium" label="⚛️ Uranium" />
+                    <NavItem to="/weather" label="☁️ Weather" />
                 </nav>
             </aside>
 
