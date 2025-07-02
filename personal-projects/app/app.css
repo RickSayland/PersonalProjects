@@ -1,15 +1,128 @@
-@import "tailwindcss";
+/* Import your Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap');
 
-@theme {
+:root {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --color-bg: #ffffff;
+  --color-text: #111111;
+
+  --color-sidebar-bg: #333;
+  --color-sidebar-hover: #444;
+  --color-sidebar-active: #555;
+  --color-link: #ffffff;
+
+  --color-table-header: #f0f0f0;
+  --color-table-border: #cccccc;
+  --color-error-bg: #eee;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0f0f1a; /* Tailwind's gray-950 */
+    --color-text: #f5f5f5;
+
+    --color-sidebar-bg: #222;
+    --color-sidebar-hover: #333;
+    --color-sidebar-active: #444;
+    --color-link: #ffffff;
+
+    --color-table-header: #1e1e2e;
+    --color-table-border: #444;
+    --color-error-bg: #222;
+  }
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  color-scheme: light dark;
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+/* Layout */
+.app-layout {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: var(--color-sidebar-bg);
+  color: var(--color-link);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--color-sidebar-hover);
+  padding-bottom: 0.5rem;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-item {
+  display: block;
+  padding: 0.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--color-link);
+  background-color: transparent;
+}
+
+.nav-item:hover {
+  background-color: var(--color-sidebar-hover);
+}
+
+.nav-item.active {
+  background-color: var(--color-sidebar-active);
+  font-weight: bold;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-bg);
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  border: 1px solid var(--color-table-border);
+}
+
+thead {
+  background-color: var(--color-table-header);
+}
+
+/* Error page */
+.error-boundary {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+pre {
+  background: var(--color-error-bg);
+  padding: 1rem;
+  overflow-x: auto;
 }

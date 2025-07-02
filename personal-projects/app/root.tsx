@@ -1,130 +1,106 @@
 import {
-  isRouteErrorResponse,
-  Links,
-  Meta, NavLink,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
+    isRouteErrorResponse,
+    Links,
+    Meta,
+    NavLink,
+    Outlet,
+    Scripts,
+    ScrollRestoration,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
+    { rel: "preconnect", href: "https://fonts.googleapis.com" },
+    {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+    },
+    {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap",
+    },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta />
-        <Links />
-      </head>
-      <body>
+    return (
+        <html lang="en">
+        <head>
+            <meta charSet="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <Meta />
+            <Links />
+        </head>
+        <body>
         {children}
         <ScrollRestoration />
         <Scripts />
-      </body>
-    </html>
-  );
+        </body>
+        </html>
+    );
 }
 
 export default function App() {
-  return (
-      <div className="flex h-screen font-sans bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100">
-        <aside className="w-56 bg-gray-800 text-white p-4 flex flex-col">
-          <h2 className="text-xl font-bold mb-4 border-b border-gray-600 pb-2">
-            🛠 My Apps
-          </h2>
-          <nav className="space-y-2">
-            <NavLink
-                to="/"
-                end
-                className={({ isActive }) =>
-                    `block px-2 py-1 rounded hover:bg-gray-700 ${
-                        isActive ? 'bg-gray-700 font-semibold' : ''
-                    }`
-                }
-            >
-              🏠 Home
-            </NavLink>
-            <NavLink
-                to="/weather"
-                className={({ isActive }) =>
-                    `block px-2 py-1 rounded hover:bg-gray-700 ${
-                        isActive ? 'bg-gray-700 font-semibold' : ''
-                    }`
-                }
-            >
-              ☁️ Weather
-            </NavLink>
-            <NavLink
-                to="/uranium"
-                className={({ isActive }) =>
-                    `block px-2 py-1 rounded hover:bg-gray-700 ${
-                        isActive ? 'bg-gray-700 font-semibold' : ''
-                    }`
-                }
-            >
-              ⚛️ Uranium
-            </NavLink>
-            <NavLink
-                to="/dna"
-                className={({ isActive }) =>
-                    `block px-2 py-1 rounded hover:bg-gray-700 ${
-                        isActive ? 'bg-gray-700 font-semibold' : ''
-                    }`
-                }
-            >
-              🧬 DNA
-            </NavLink>
-          </nav>
-        </aside>
+    return (
+        <div className="app-layout">
+            <aside className="sidebar">
+                <h2 className="sidebar-title">🛠 My Apps</h2>
+                <nav className="nav-links">
+                    <NavItem to="/" label="🏠 Home" />
+                    <NavItem to="/weather" label="☁️ Weather" />
+                    <NavItem to="/uranium" label="⚛️ Uranium" />
+                    <NavItem to="/dna" label="🧬 DNA" />
+                </nav>
+            </aside>
 
-        <main className="flex-1 p-6 overflow-auto">
-          <Outlet />
-        </main>
-      </div>
-  );
+            <main className="main-content">
+                <Outlet />
+            </main>
+        </div>
+    );
+}
+
+function NavItem({ to, label }: { to: string; label: string }) {
+    return (
+        <NavLink
+            to={to}
+            end
+            className={({ isActive }) =>
+                `nav-item${isActive ? " active" : ""}`
+            }
+        >
+            {label}
+        </NavLink>
+    );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
-  let stack: string | undefined;
+    let message = "Oops!";
+    let details = "An unexpected error occurred.";
+    let stack: string | undefined;
 
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
-    stack = error.stack;
-  }
+    if (isRouteErrorResponse(error)) {
+        message = error.status === 404 ? "404" : "Error";
+        details =
+            error.status === 404
+                ? "The requested page could not be found."
+                : error.statusText || details;
+    } else if (import.meta.env.DEV && error && error instanceof Error) {
+        details = error.message;
+        stack = error.stack;
+    }
 
-  return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
+    return (
+        <main className="error-boundary">
+            <h1>{message}</h1>
+            <p>{details}</p>
+            {stack && (
+                <pre>
           <code>{stack}</code>
         </pre>
-      )}
-    </main>
-  );
+            )}
+        </main>
+    );
 }
