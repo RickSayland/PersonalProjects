@@ -1,36 +1,32 @@
-using System.Text.Json;
-using PersonalProjectsCore;
+using PersonalProjectsAPI.Services;
 
 namespace PersonalProjectsAPI.Endpoints;
 
 public static class StravaEndpoints
 {
-    private static readonly JsonSerializerOptions JsonOptions = new()
-    {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        PropertyNameCaseInsensitive = true
-    };
-
     public static void MapStravaEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/strava", async (HttpClient http) =>
+        app.MapGet("/strava/athlete", async (StravaService stravaService) =>
             {
-                var accessToken = Environment.GetEnvironmentVariable("STRAVA_ACCESS_TOKEN");
-
-                var request = new HttpRequestMessage(HttpMethod.Get, "https://www.strava.com/api/v3/athlete");
-                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
-
-                var response = await http.SendAsync(request);
-                if (!response.IsSuccessStatusCode)
-                {
-                    return Results.Problem($"Strava API request failed with status {response.StatusCode}");
-                }
-
-                var json = await response.Content.ReadAsStringAsync();
-                var athlete = JsonSerializer.Deserialize<StravaAthlete>(json, JsonOptions);
-                return Results.Ok(athlete);
+                var athlete = await stravaService.GetAthleteAsync();
+                return athlete is not null
+                    ? Results.Ok(athlete)
+                    : Results.Problem("Strava API request failed");
             })
             .WithName("GetStravaAthlete")
             .WithOpenApi();
+        
+        app.MapGet("/strava/activities", async (StravaService stravaService) =>
+            {
+                var activites = await stravaService.GetActivitiesAsync();
+                return activites is not null
+                    ? Results.Ok(activites)
+                    : Results.Problem("Strava API request failed");
+            })
+            .WithName("GetStravaActivities")
+            .WithOpenApi();
+        
     }
+    
+    
 }

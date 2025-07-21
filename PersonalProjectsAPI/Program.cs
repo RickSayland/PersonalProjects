@@ -1,4 +1,6 @@
+using System.Text.Json;
 using PersonalProjectsAPI.Endpoints;
+using PersonalProjectsAPI.Services;
 
 namespace PersonalProjectsAPI;
 
@@ -10,19 +12,17 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddAuthorization();
-
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        
-        // Add HttpClient for Strava API calls
-        builder.Services.AddHttpClient();
+        builder.Services.AddSingleton(new JsonSerializerOptions(JsonSerializerDefaults.Web));
+        builder.Services.AddHttpClient<StravaService>();
         
         builder.Services.AddCors(options =>
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins("http://localhost:5176") // Vite default dev server
+                policy.WithOrigins("http://localhost:5173") // Vite default dev server
                     .AllowAnyHeader()
                     .AllowAnyMethod();
             });

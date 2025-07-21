@@ -25,7 +25,7 @@ type StravaAthlete = {
 };
 
 export default function Running() {
-  const { data: athlete, loading, error } = useFetch<StravaAthlete>("https://localhost:44363/strava", { cache: true });
+  const { data: athlete, loading, error } = useFetch<StravaAthlete>("https://localhost:44363/strava/athlete", { cache: true });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
