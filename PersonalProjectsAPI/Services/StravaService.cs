@@ -3,7 +3,7 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using com.strava.api.Authentication;
 using com.strava.api.Segments;
-using PersonalProjectsCore;
+using PersonalProjectsCore.Strava;
 using stravaApi = com.strava.api;
 
 namespace PersonalProjectsAPI.Services;
@@ -42,7 +42,7 @@ public class StravaService(HttpClient httpClient, JsonSerializerOptions jsonOpti
     private HttpRequestMessage BuildRequest(string endpoint)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, $"https://www.strava.com/api/v3/{endpoint}");
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "c59ea5c0772d684839de9c051ae8fc6996159feb");
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Environment.GetEnvironmentVariable("STRAVA_ACCESS_TOKEN"));
         return request;
     }
 }

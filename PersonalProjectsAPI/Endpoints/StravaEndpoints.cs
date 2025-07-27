@@ -18,15 +18,11 @@ public static class StravaEndpoints
         
         app.MapGet("/strava/activities", async (StravaService stravaService) =>
             {
-                var activites = await stravaService.GetActivitiesAsync();
-                return activites is not null
-                    ? Results.Ok(activites)
-                    : Results.Problem("Strava API request failed");
+                var activities = await stravaService.GetActivitiesAsync();
+                return Results.Ok(activities);
             })
             .WithName("GetStravaActivities")
             .WithOpenApi();
         
     }
-    
-    
 }

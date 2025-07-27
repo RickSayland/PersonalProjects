@@ -1,6 +1,6 @@
-﻿namespace PersonalProjectsCore;
+﻿using System.Text.Json.Serialization;
 
-using System.Text.Json.Serialization;
+namespace PersonalProjectsCore.Strava;
 
 public class StravaActivity
 {

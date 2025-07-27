@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace PersonalProjectsCore;
+namespace PersonalProjectsCore.Strava;
 
 public class StravaAthleteReference
 {
